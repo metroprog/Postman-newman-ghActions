@@ -1,4 +1,4 @@
-name: Test-Build
+name: API Testing Newman Report
 on:
     push:
         branches:
@@ -8,32 +8,34 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v2
+            - name: Checkout
+            - uses: actions/checkout@v1
 
-            # INstall Node on the runner
             - name: Install Node
               uses: actions/setup-node@v1
               with:
                   node-version: "12.x"
 
-            # Install the newman command line utility and also install the html extra reporter
             - name: Install newman
               run: |
                   npm install -g newman
                   npm install -g newman-reporter-htmlextra
 
-            # Make directory to upload the test results
-            - name: Make Directory for results
-              run: mkdir -p testResults
-
-            # Run the POSTMAN collection
             - name: Run POSTMAN collection
               run: |
-                  newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+                  npx newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export ./docs/index.html
+
+            - name: Deploy report page
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: ./docs
+                user_name: 'github-actions[bot]'
+                user_email: 'github-actions[bot]@users.noreply.github.com'
 
             # Upload the contents of Test Results directory to workspace
             - name: Output the run Details
               uses: actions/upload-artifact@v2
               with:
-                  name: RunReports
-                  path: testResults
+                  name: Newman
+                  path: docs
