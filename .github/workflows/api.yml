@@ -20,14 +20,14 @@ jobs:
             - name: Run POSTMAN collection
               continue-on-error: true
               run: |
-                  npm run newman run petstore.postman_collection.json -r htmlextra --reporter-htmlextra-export ./newman/index.html
+                  npm run newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export ./newman/index.html
             - name: Deploy report page
               uses: peaceiris/actions-gh-pages@v3
               with:
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              publish_dir: ./newman
-              user_name: "github-actions[bot]"
-              user_email: "github-actions[bot]@users.noreply.github.com"
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./newman
+                  user_name: "github-actions[bot]"
+                  user_email: "github-actions[bot]@users.noreply.github.com"
             - name: Output the run Details
               uses: actions/upload-artifact@v2
               with:
