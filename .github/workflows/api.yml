@@ -12,7 +12,7 @@ jobs:
             - name: Install Node
               uses: actions/setup-node@v1
               with:
-                  node-version: "14.x"
+                  node-version: "12.x"
             - name: Install newman
               run: |
                   npm install -g newman
@@ -20,7 +20,7 @@ jobs:
             - name: Run POSTMAN collection
               continue-on-error: true
               run: |
-                  npm run newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export ./newman/index.html
+                  npx newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export ./newman/index.html
             - name: Deploy report page
               uses: peaceiris/actions-gh-pages@v3
               with:
