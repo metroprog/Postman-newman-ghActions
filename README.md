@@ -38,17 +38,50 @@ Examples:
 8. Push to you github repo in main branch ( in case with local server - save local server as well )
 
 ###  GH actions practice / Second Task
-9. Add Github action to run `petstore.collection.json` in Github pages by <a href="https://www.linkedin.com/pulse/running-postman-collections-via-github-action-nirmala-jayasanka"> article </a> or use another GH action.
-10. Check github actions for result.
+9. Add Github action to run `petstore.collection.json` in Github pages by <a href="https://www.linkedin.com/pulse/running-postman-collections-via-github-action-nirmala-jayasanka"> article </a> or use another GH action.	
+	
+	Github workflow contents:
+	- Install Node JS and NPM by using Github Action `actions/setup-node@v1`
+	- Install globally all required NPM packages by running:
+	```
+	npm install -g newman
+	npm install -g newman-reporter-htmlextra
+	```
+	- Run Postman collection and create HTML report by using `newman` and `newman-reporter-htmlextra`:
+	```
+	npx newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export ./newman/index.html
+	```
+	- Deploy HTML report to Github Pages: <a href="https://metroprog.github.io/Postman-newman-ghActions">Link to HTML report</a>
+
+10. Check github actions for result. 
 
 
 You can use another API to perform  your testing instead of local store API and `store.collection.json`. 
 - <a href="https://github.com/public-apis/public-apis"> Public API list </a>
 
-### Usefull links (skip this)
+### Useful links (skip this)
 Examples with different actions in Postman workspace (only take a look once, no need to learn this) 
 - <a href="https://www.postman.com/postman/workspace/postman-answers"> Postman answers </a>
 - <a href="https://restfulapi.net"> REST API Tutorial </a>
 
 Doc for json schema validation, to check output API response (only take a look once, no need to learn this doc) 
 - <a href="https://json-schema.org"> json schema docs </a>
+
+## Run Postman & Newman tests ang generate HTML-report locally
+1. Clone this repository with command in `Git Bash`:
+```
+git clone https://github.com/metroprog/Postman-newman-ghActions.git
+```
+2. Install NPM and all required NPM packages with command:
+```
+npm install
+```
+3. Run command in `Git Bash` to start local server:
+```
+npm run tern-on-api
+```
+4. Run command in any console to run Postman collection and create HTML report:
+```
+npx newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export ./newman/index.html
+```
+5. Open `index.html` that is in `newman` directory in any browser
